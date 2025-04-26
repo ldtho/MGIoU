@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="description"
+          content="Introducing Marginalized Generalized IoU (MGIoU), a novel loss function unifying parametric shape optimization across diverse applications."/>
+    <meta property="og:title" content="MGIoU: Unifying Parametric Shape Optimization"/>
+    <meta property="og:description"
+          content="Introducing Marginalized Generalized IoU (MGIoU), a novel loss function unifying parametric shape optimization across diverse applications."/>
+    <meta property="og:url" content="YOUR_WEBSITE_URL_HERE"/>
+    <meta property="og:image" content="static/images/your_banner_image.png"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+
+    <meta name="twitter:title" content="MGIoU: Unifying Parametric Shape Optimization"/>
+    <meta name="twitter:description"
+          content="Introducing Marginalized Generalized IoU (MGIoU), a novel loss function unifying parametric shape optimization across diverse applications."/>
+    <meta name="twitter:image" content="static/images/your_twitter_banner_image.png"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+
+    <meta name="keywords"
+          content="MGIoU, GIoU, IoU, parametric shape optimization, convex shapes, object detection, trajectory prediction, computer vision, robotics, graphics"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>MGIoU: Unifying Parametric Shape Optimization</title>
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"/>
+    <link rel="stylesheet" href="static/css/bulma.min.css"/>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css"/>
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css"/>
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"/>
+    <link rel="stylesheet" href="static/css/index.css"/>
+
+    <!-- MathJax (display-mode enabled) -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+
+    <!-- Helpers -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="static/js/bulma-carousel.min.js" defer></script>
+    <script src="static/js/bulma-slider.min.js" defer></script>
+    <script src="static/js/fontawesome.all.min.js" defer></script>
+    <script src="static/js/index.js" defer></script>
+
+    <!-- Tiny style tweak for maths -->
+    <style>
+        .math-block {
+            text-align: center;
+            margin: 1rem auto;
+            font-size: 1.05rem;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ──────────────────────── HERO ──────────────────────── -->
+<section class="hero">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <h1 class="title is-1 publication-title">
+                        Marginalized&nbsp;Generalized&nbsp;IoU&nbsp;(MGIoU):&nbsp;Unifying&nbsp;Parametric&nbsp;Shape&nbsp;Optimization
+                    </h1>
+
+                    <div class="is-size-5 publication-authors">
+                        <span class="author-block"><a
+                                href="https://scholar.google.com/citations?user=ufvAmAIAAAAJ&hl=en" target="_blank">Duy&nbsp;Tho&nbsp;Le<sup>1</sup></a>,</span>
+                        <span class="author-block"><a
+                                href="https://scholar.google.com.au/citations?user=Rfj56F4AAAAJ&hl=en" target="_blank">Trung&nbsp;Pham<sup>2</sup></a>,</span>
+                        <span class="author-block"><a href="https://scholar.com/citations?hl=en&user=N6czCoUAAAAJ"
+                                                      target="_blank">Jianfei&nbsp;Cai<sup>1</sup></a>,</span>
+                        <span class="author-block"><a
+                                href="https://scholar.google.com.au/citations?user=VxAuxMwAAAAJ&hl=en" target="_blank">Hamid&nbsp;Rezatofighi<sup>1</sup></a></span>
+                    </div>
+
+                    <div class="is-size-5">
+                        <span class="author-block"><sup>1</sup>&nbsp;Monash&nbsp;University&nbsp;&emsp;&emsp;<sup>2</sup>&nbsp;NVIDIA</span>
+                    </div>
+
+                    <div class="publication-links mt-4">
+                        <a href="https://github.com/ldtho/MGIoU" target="_blank"
+                           class="external-link button is-dark is-rounded is-normal mr-2">
+                            <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+                        </a>
+                        <a href="https://arxiv.org/abs/2504.16443" target="_blank"
+                           class="external-link button is-dark is-rounded is-normal">
+                            <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ──────────────────────── TEASER ──────────────────────── -->
+<section class="hero teaser">
+    <figure class="image is-inline-block">
+        <img src="static/images/thumbnail.png"
+             alt="Teaser image"
+             style="display:block;margin:auto;width:80%;"/>
+    </figure>
+
+    <div class="container is-max-desktop">
+        <div class="hero-body">
+            <h3 class="title is-3 has-text-centered mt-5">
+                We introduce MGIoU and MGIoU<sup>+</sup>, novel loss functions that unify parametric shape
+                optimization by projecting structured and unstructured convex shapes onto their shape
+                normals to compute a one-dimensional normalised&nbsp;GIoU<sup>1D</sup>.
+                The variant&nbsp;MGIoU<sup>-</sup> is designed for minimising overlaps in tasks such as
+                collision-free trajectory prediction.
+            </h3>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── VIDEO DEMO ──────────────────────── -->
+<section class="section hero is-light">
+    <div class="container is-max-desktop">
+        <h2 class="title is-2 has-text-centered">MGIoU&nbsp;and&nbsp;MGIoU<sup>+</sup></h2>
+    </div>
+</section>
+
+<section class="hero is-small is-light">
+    <div class="hero-body">
+        <div class="container">
+            <div class="item">
+                <video id="video" class="is-fullwidth" autoplay controls muted loop>
+                    <source src="static/videos/mgiou.mp4" type="video/mp4"/>
+                </video>
+            </div>
+
+            <div class="column has-text-centered mt-3">
+                Visualisation of MGIoU and MGIoU<sup>+</sup> optimising various 2-D and 3-D shapes.
+                Observe how each shape gradually adjusts to minimise the loss.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── ABSTRACT ──────────────────────── -->
+<section class="section hero">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+                <h2 class="title is-3">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p>
+                        Optimising the similarity between parametric shapes is crucial across computer-vision
+                        tasks. Intersection-over-Union (IoU) is the canonical metric, yet existing objective
+                        functions either correlate weakly with IoU, are limited to simple shapes, or are
+                        computationally expensive.
+                        <strong>Marginalised Generalised IoU (MGIoU)</strong> addresses these limitations by projecting
+                        structured convex shapes onto their unique normals and computing a <em>1-D</em> normalised GIoU.
+                        MGIoU is simple, differentiable, efficient, and highly correlated with true IoU.
+                        We extend it to <strong>MGIoU<sup>+</sup></strong> for unstructured convex shapes, unifying
+                        shape
+                        optimisation across diverse domains. Experiments show consistent performance gains and
+                        10-40 × faster loss computation.
+                        Finally, <strong>MGIoU<sup>-</sup></strong> minimises overlaps, enabling collision-avoidance
+                        objectives such as safer trajectory prediction.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── SHAPE NORMALS / FORMULAS ──────────────────────── -->
+<section class="section hero is-light">
+    <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Identifying Shape Normals and compute MGIOU</h2>
+        <div class="columns is-centered">
+            <div class="column is-four-fifths">
+                <div class="content has-text-justified">
+                    <p>
+                        Given two arbitrary shapes \(P, G \subseteq \mathbb{R}^D\) (with \(D=2\) in 2-D and
+                        \(D=3\) in 3-D) and vertex sets \(\mathbf P\in\mathbb R^{N_P\times D}\),
+                        \(\mathbf G\in\mathbb R^{N_G\times D}\), MGIoU first builds a set of unique shape
+                        normals \(\mathcal A\). In 2-D polygons the normals are 90° rotations of edge vectors;
+                        in ellipses they align with the semi-axes; in 3-D they become face normals. Duplicate
+                        or parallel directions are pruned, leaving a compact basis (e.g. a rotated rectangle
+                        needs only two normals, a cuboid needs three), reducing abundant computations.
+                    </p>
+                    <p> For every Normal \(\mathbf a\in\mathcal A\) and the projection of \(P\) and \(G\) onto
+                        \(\mathbf a\), we compute the 1-D GIoU:</p>
+
+                    <!-- All formulas are centred & evenly spaced via .math-block -->
+<!--                    <div class="math-block">\[ |P_{a} \cap G_{a}| \]</div>-->
+<!--                    <div class="math-block">\[ |P_{a} \cup G_{a}| \]</div>-->
+                    <div class="math-block">\[
+                        \operatorname{IoU}^{1D}(P_{a},G_{a}) =\frac{|P_{a}\cap G_{a}|}{|P_{a}\cup G_{a}|}
+                        \]
+                    </div>
+                    <div class="math-block">\[
+                        \operatorname{GIoU}^{1D}(P_{a},G_{a}) = \operatorname{IoU}^{1D}(P_{a},G_{a})-
+                        \frac{|C_{a}-(P_{a}\cup G_{a})|}{|C_{a}|}
+                        \]
+                    </div>
+                    <div class="math-block">\[
+                        \operatorname{MGIoU}(P,G)=\frac{1}{|\mathcal A|}\sum_{\mathbf a\in\mathcal A}
+                        \operatorname{GIoU}^{1D}(P_{a},G_{a})
+                        \]
+                    </div>
+                    <p>
+                        where \(C_{a}\) is the smallest 1-D interval enclosing the projections \(P_{a}\) and
+                        \(G_{a}\) onto normal \(\mathbf a\).
+                    </p>
+                    <p>
+                        MGIoU and MGIoU<sup>+</sup> thus compute a marginalised one-dimensional version of GIoU
+                        along all unique normals, yielding a fast, scale-invariant loss.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── METRIC PROPERTIES ──────────────────────── -->
+<section class="section hero is-light">
+    <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Metric Properties of MGIoU</h2>
+        <div class="columns is-centered">
+            <div class="column is-four-fifths">
+                <div class="content has-text-justified">
+                    <p>
+                        Owing to its derivation from the Jaccard index via the Generalised IoU formulation, the
+                        MGIoU loss \(\mathcal{L}_{\text{MGIoU}} = (1-\operatorname{MGIoU})/2\) fulfils all axioms
+                        of a metric <em>and</em> remains scale-invariant:
+                    </p>
+                    <ol>
+                        <li><strong>Non-negativity</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) \ge 0\)</li>
+                        <li><strong>Identity of indiscernibles</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) = 0\) iff \(P
+                            = G\)
+                        </li>
+                        <li><strong>Symmetry</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) =
+                            \mathcal{L}_{\text{MGIoU}}(G,P)\)
+                        </li>
+                        <li><strong>Triangle inequality</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,R) \le
+                            \mathcal{L}_{\text{MGIoU}}(P,Q) + \mathcal{L}_{\text{MGIoU}}(Q,R)\)
+                        </li>
+                        <li><strong>Scale invariance</strong>: \(\mathcal{L}_{\text{MGIoU}}(sP,sG) =
+                            \mathcal{L}_{\text{MGIoU}}(P,G)\) for any scalar \(s>0\)
+                        </li>
+                    </ol>
+                    <p>
+                        These guarantees endow the loss with theoretical robustness and a tight correlation with
+                        Intersection-over-Union, ensuring consistent optimisation behaviour across varied
+                        shapes, scales, and applications.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── QUALITATIVE RESULTS (single carousel) ──────────────────────── -->
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h2 class="title is-3 has-text-centered mb-4">
+                Qualitative Results on 2-D&nbsp;and 3-D Datasets
+            </h2>
+
+            <div id="results-carousel" class="carousel results-carousel">
+                <!-- 11 example items -->
+                <div class="item"><img src="static/images/supp/1.png" alt="Result 1"></div>
+                <div class="item"><img src="static/images/supp/2.png" alt="Result 2"></div>
+                <div class="item"><img src="static/images/supp/3.png" alt="Result 3"></div>
+                <div class="item"><img src="static/images/supp/4.png" alt="Result 4"></div>
+                <div class="item"><img src="static/images/supp/5.png" alt="Result 5"></div>
+                <div class="item"><img src="static/images/supp/6.png" alt="Result 6"></div>
+                <div class="item"><img src="static/images/supp/7.png" alt="Result 7"></div>
+                <div class="item"><img src="static/images/supp/8.png" alt="Result 8"></div>
+                <div class="item"><img src="static/images/supp/9.png" alt="Result 9"></div>
+                <div class="item"><img src="static/images/supp/10.png" alt="Result 10"></div>
+                <div class="item"><img src="static/images/supp/11.png" alt="Result 11"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── MGIoU MINUS ──────────────────────── -->
+<section class="section hero is-light">
+    <div class="container is-max-desktop">
+        <h2 class="title is-2 has-text-centered">MGIoU<sup>-</sup></h2>
+    </div>
+</section>
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+
+          <p>
+            <strong>MGIoU<sup>-</sup></strong> converts MGIoU into a
+            <em>repulsion loss</em> by (i)&nbsp;taking the
+            <span class="has-text-weight-semibold">smallest</span>
+            1-D&nbsp;GIoU across the set of shared shape normals and
+            (ii)&nbsp;passing that value through a <code>ReLU</code> activation to stop penalising as soon as
+            the shapes are non-overlapping.
+          </p>
+
+          <!-- kernel for one unordered pair (i,j) at time-step t -->
+          <div class="math-block">
+          \[
+            K_{ij}^t
+              = \operatorname{ReLU}\!\Bigl(
+                  \min_{\mathbf a\in\mathcal A_{ij}^t}
+                  \operatorname{GIoU}^{1D}(P_{\mathbf a},G_{\mathbf a})
+                \Bigr),
+          \]
+          </div>
+
+          <p>
+            where \(\mathcal A_{ij}^t\) contains the unique normals of the two
+            convex shapes at time&nbsp;<em>t</em>.
+          </p>
+
+          <!-- full loss -->
+          <div class="math-block">
+          \[
+            \boxed{
+            \mathcal L_{\text{MGIoU}^-}
+              = \sum_{i=1}^{B} s_i
+                \sum_{t=1}^{T} m_i^t
+                \sum_{\substack{j=1\\ j\ne i}}^{B} K_{ij}^t
+            }
+          \]
+          </div>
+
+          <p>
+            where \(B\) is the number of agents, \(T\) is the number of time-steps,
+            zero loss is achieved only when every pair of
+            visible agents is non-overlapping at <em>all</em> timesteps,
+            making the objective ideally suited to
+            collision-free trajectory prediction, layout design (without considering temporal information \(T\)), and any task
+            requiring differentiable overlap avoidance.
+          </p>
+
+<!--          <h4 class="title is-4 mt-4">Algorithm&nbsp;1&nbsp;&mdash;&nbsp;MGIoU<sup>-</sup> in Pseudocode</h4>-->
+<!---->
+<!--<pre><code class="language-python" style="font-size:0.95rem">-->
+<!--# Boxes: T_i^t ∈ ℝ^{4×2}, masks m_i^t, confidence s_i-->
+<!--L = 0-->
+<!--for t in range(T):-->
+<!--    # pairwise repulsion at time t-->
+<!--    for i, j in unordered_pairs(range(B)):-->
+<!--        normals = unique_normals(T_i^t, T_j^t)-->
+<!--        gious = []-->
+<!--        for a in normals:-->
+<!--            proj_i = T_i^t @ a          # 1-D projection-->
+<!--            proj_j = T_j^t @ a-->
+<!--            giou_1d = giou_interval(proj_i, proj_j)-->
+<!--            gious.append(giou_1d)-->
+<!--        K = softplus(min(gious))-->
+<!--        loss_i[t] += K-->
+<!--# aggregate over time & agents-->
+<!--for i in range(B):-->
+<!--    L += s_i * sum_t(m_i^t * loss_i[t])-->
+<!--return L   # 𝓛_{MGIoU^-}-->
+<!--</code></pre>-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <figure class="image is-inline-block">
+                <video id="video-mgiou-minus" style="width:60%" autoplay controls muted loop>
+                    <source src="static/videos/mgiou-.mp4" type="video/mp4"/>
+                </video>
+            </figure>
+            <div class="has-text-centered">
+                Visualisation of MGIoU<sup>-</sup> progressively pushing shapes apart to minimise overlap.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── Qualitative samples ──────────────────────── -->
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h2 class="title is-3 has-text-centered mb-4">
+                Qualitative Results on Waymo Dataset
+            </h2>
+
+            <div id="results-carousel2" class="carousel results-carousel">
+                <!-- Example items (keep either caption-below OR caption-overlay) -->
+                <div class="item">
+                    <img src="static/images/supp/12.png" alt="Car yields to pedestrian and cyclist">
+                    <p class="caption-below">Car yields to pedestrian and cyclist.</p>
+                    <!-- OR -->
+                    <!-- <span class="caption-overlay">Car yields to pedestrian and cyclist.</span> -->
+                </div>
+
+                <div class="item">
+                    <img src="static/images/supp/13.png" alt="Both cars curve through the junction without collision">
+                    <p class="caption-below">Both cars curve through the junction without collision.</p>
+                    <!-- <span class="caption-overlay">Both cars curve through the junction without collision.</span> -->
+                </div>
+
+                <div class="item">
+                    <img src="static/images/supp/14.png" alt="Cars maintain a safe distance while accelerating">
+                    <p class="caption-below">Cars maintain a safe distance while accelerating</p>
+                </div>
+
+                <div class="item">
+                    <img src="static/images/supp/15.png" alt="Pedestrian makes a safe crossing">
+                    <p class="caption-below">Pedestrian makes a safe crossing</p>
+                </div>
+
+                <div class="item">
+                    <img src="static/images/supp/16.png" alt="Car adjusts its turn to avoid a side-swipe on the bend">
+                    <p class="caption-below">Car adjusts its turn to avoid a side-swipe on the bend.</p>
+                </div>
+
+                <div class="item">
+                    <img src="static/images/supp/17.png" alt="Car curves past the crossing cyclist without collision">
+                    <p class="caption-below">Car curves past the crossing cyclist without collision.</p>
+                </div>
+                <div class="item">
+                    <img src="static/images/supp/18.png"
+                         alt="Merging car adjusts its path to clear the oncoming curve without conflict">
+                    <p class="caption-below">Merging cars adjusts their paths to clear the oncoming curve without
+                        conflict</p>
+                </div>
+                <!-- …repeat for items 7–11 … -->
+            </div>
+            <div class="has-text-centered my-4">
+                <img
+                        src="static/images/supp/legend.png"
+                        alt="Prediction / GT legend"
+                        style="width:60%"
+                >
+            </div>
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-four-fifths has-text-centered">
+                        <p class="mt-2">
+                            Qualitative Results Waymo dataset, showing that MGIoU<sup>-</sup> can be used to optimise
+                            the trajectory of multiple agents in a scene, reducing the overlap/collision in predicted
+                            trajectories of
+                            road agents.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── BIBTEX ──────────────────────── -->
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>@misc{le2025mgiou,
+  title  = {Marginalized Generalized IoU (MGIoU): Unifying Parametric Shape Optimization},
+  author = {Duy-Tho Le and Trung Pham and Jianfei Cai and Hamid Rezatofighi},
+  year   = {2025},
+  eprint = {2404.04629},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV}
+}</code></pre>
+    </div>
+</section>
+
+<!-- ──────────────────────── FOOTER ──────────────────────── -->
+<footer class="footer">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <div class="content">
+                    <p class="has-text-centered">
+                        This page was built with the
+                        <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic&nbsp;Project&nbsp;Page&nbsp;Template</a>
+                        (adapted from <a href="https://nerfies.github.io" target="_blank">Nerfies</a>).
+                        Feel free to reuse the code—just keep a link back here.
+                        Licensed under
+                        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC&nbsp;BY-SA&nbsp;4.0</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Optional: Statcounter (unchanged) -->
+<script type="text/javascript">
+    var sc_project = 12985919;
+    var sc_invisible = 0;
+    var sc_security = "da7fa90e";
+    var scJsHost = "https://";
+    document.write(
+        "<sc" + "ript type='text/javascript' src='" + scJsHost +
+        "statcounter.com/counter/counter.js'></" + "script>"
+    );
+</script>
+<noscript>
+    <div class="statcounter">
+        <a title="Web Analytics" href="https://statcounter.com/" target="_blank">
+            <img class="statcounter"
+                 src="https://c.statcounter.com/12985919/0/da7fa90e/0/"
+                 alt="Web Analytics"
+                 referrerPolicy="no-referrer-when-downgrade">
+        </a>
+    </div>
+</noscript>
+
+</body>
+</html>
