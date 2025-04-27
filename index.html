@@ -1,90 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MGIoU: Unifying Parametric Shape Optimization</title>
-  <!-- Existing external assets -->
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"/>
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"/>
-  <link rel="stylesheet" href="static/css/bulma.min.css"/>
-  <link rel="stylesheet" href="static/css/bulma-carousel.min.css"/>
-  <link rel="stylesheet" href="static/css/bulma-slider.min.css"/>
-  <link rel="stylesheet" href="static/css/fontawesome.all.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"/>
-  <link rel="stylesheet" href="static/css/index.css"/>
+    <meta charset="utf-8"/>
+    <meta name="description"
+          content="Introducing Marginalized Generalized IoU (MGIoU), a novel loss function unifying parametric shape optimization across diverse applications."/>
+    <meta property="og:title" content="MGIoU: Unifying Parametric Shape Optimization"/>
+    <meta property="og:description"
+          content="Introducing Marginalized Generalized IoU (MGIoU), a novel loss function unifying parametric shape optimization across diverse applications."/>
+    <meta property="og:url" content="YOUR_WEBSITE_URL_HERE"/>
+    <meta property="og:image" content="static/images/your_banner_image.png"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
 
-  <!-- Extra mobile‑first tweaks (new) -->
-  <style>
-    /* Make sure any media, images or video never overflow the screen */
-    img,
-    video {
-      max-width: 100% !important;
-      height: auto !important;
-    }
+    <meta name="twitter:title" content="MGIoU: Unifying Parametric Shape Optimization"/>
+    <meta name="twitter:description"
+          content="Introducing Marginalized Generalized IoU (MGIoU), a novel loss function unifying parametric shape optimization across diverse applications."/>
+    <meta name="twitter:image" content="static/images/your_twitter_banner_image.png"/>
+    <meta name="twitter:card" content="summary_large_image"/>
 
-    /* Center block‑level teaser images on mobile */
-    .image.is-inline-block {
-      display: block !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
+    <meta name="keywords"
+          content="MGIoU, GIoU, IoU, parametric shape optimization, convex shapes, object detection, trajectory prediction, computer vision, robotics, graphics"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    /* Ensure carousel items fit */
-    .carousel .item img {
-      width: 100% !important;
-      height: auto !important;
-    }
+    <title>MGIoU: Unifying Parametric Shape Optimization</title>
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"/>
+    <link rel="stylesheet" href="static/css/bulma.min.css"/>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css"/>
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css"/>
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"/>
+    <link rel="stylesheet" href="static/css/index.css"/>
 
-    /* Slightly smaller title on very small screens */
-    @media (max-width: 768px) {
-      .title.is-1 {
-        font-size: 1.75rem !important;
-      }
-      .title.is-3 {
-        font-size: 1.25rem !important;
-      }
-      /* Give containers breathing room */
-      .hero-body .container,
-      .section .container {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-      }
-      /* Resize captions */
-      .caption-below {
-        font-size: 0.9rem !important;
-      }
-    }
-      /* Force columns that are fraction‑based to span full width on small devices */
-    @media (max-width: 768px) {
-      .column.is-four-fifths,
-      .column.is-three-fifths,
-      .column.is-two-thirds {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-      }
-    }
-  </style>
+    <!-- MathJax (display-mode enabled) -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 
-  <!-- MathJax (display‑mode enabled) -->
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+    <!-- Helpers -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="static/js/bulma-carousel.min.js" defer></script>
+    <script src="static/js/bulma-slider.min.js" defer></script>
+    <script src="static/js/fontawesome.all.min.js" defer></script>
+    <script src="static/js/index.js" defer></script>
 
-  <!-- Helpers -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="static/js/bulma-carousel.min.js" defer></script>
-  <script src="static/js/bulma-slider.min.js" defer></script>
-  <script src="static/js/fontawesome.all.min.js" defer></script>
-  <script src="static/js/index.js" defer></script>
-
-  <!-- Tiny style tweak for maths (kept) -->
-  <style>
-    .math-block {
-      text-align: center;
-      margin: 1rem auto;
-      font-size: 1.05rem;
-    }
-  </style>
+    <!-- Tiny style tweak for maths -->
+    <style>
+        .math-block {
+            text-align: center;
+            margin: 1rem auto;
+            font-size: 1.05rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -223,23 +189,13 @@
                     <p> For every Normal \(\mathbf a\in\mathcal A\) and the projection of \(P\) and \(G\) onto
                         \(\mathbf a\), we compute the 1-D GIoU:</p>
 
-                    <!-- All formulas are centred & evenly spaced via .math-block -->
-<!--                    <div class="math-block">\[ |P_{a} \cap G_{a}| \]</div>-->
-<!--                    <div class="math-block">\[ |P_{a} \cup G_{a}| \]</div>-->
-                    <div class="math-block">\[
-                        \operatorname{IoU}^{1D}(P_{a},G_{a}) =\frac{|P_{a}\cap G_{a}|}{|P_{a}\cup G_{a}|}
-                        \]
-                    </div>
-                    <div class="math-block">\[
-                        \operatorname{GIoU}^{1D}(P_{a},G_{a}) = \operatorname{IoU}^{1D}(P_{a},G_{a})-
-                        \frac{|C_{a}-(P_{a}\cup G_{a})|}{|C_{a}|}
-                        \]
-                    </div>
-                    <div class="math-block">\[
-                        \operatorname{MGIoU}(P,G)=\frac{1}{|\mathcal A|}\sum_{\mathbf a\in\mathcal A}
-                        \operatorname{GIoU}^{1D}(P_{a},G_{a})
-                        \]
-                    </div>
+<figure class="image my-4">
+  <img
+    src="static/images/supp/mgiou.png"
+    alt="One-dimensional IoU, GIoU and MGIoU equations"
+    style="width:100%;height:auto"
+  >
+</figure>
                     <p>
                         where \(C_{a}\) is the smallest 1-D interval enclosing the projections \(P_{a}\) and
                         \(G_{a}\) onto normal \(\mathbf a\).
@@ -266,21 +222,29 @@
                         MGIoU loss \(\mathcal{L}_{\text{MGIoU}} = (1-\operatorname{MGIoU})/2\) fulfils all axioms
                         of a metric <em>and</em> remains scale-invariant:
                     </p>
-                    <ol>
-                        <li><strong>Non-negativity</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) \ge 0\)</li>
-                        <li><strong>Identity of indiscernibles</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) = 0\) iff \(P
-                            = G\)
-                        </li>
-                        <li><strong>Symmetry</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) =
-                            \mathcal{L}_{\text{MGIoU}}(G,P)\)
-                        </li>
-                        <li><strong>Triangle inequality</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,R) \le
-                            \mathcal{L}_{\text{MGIoU}}(P,Q) + \mathcal{L}_{\text{MGIoU}}(Q,R)\)
-                        </li>
-                        <li><strong>Scale invariance</strong>: \(\mathcal{L}_{\text{MGIoU}}(sP,sG) =
-                            \mathcal{L}_{\text{MGIoU}}(P,G)\) for any scalar \(s>0\)
-                        </li>
-                    </ol>
+<!--                    <ol>-->
+<!--                        <li><strong>Non-negativity</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) \ge 0\)</li>-->
+<!--                        <li><strong>Identity of indiscernibles</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) = 0\) iff \(P-->
+<!--                            = G\)-->
+<!--                        </li>-->
+<!--                        <li><strong>Symmetry</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,G) =-->
+<!--                            \mathcal{L}_{\text{MGIoU}}(G,P)\)-->
+<!--                        </li>-->
+<!--                        <li><strong>Triangle inequality</strong>: \(\mathcal{L}_{\text{MGIoU}}(P,R) \le-->
+<!--                            \mathcal{L}_{\text{MGIoU}}(P,Q) + \mathcal{L}_{\text{MGIoU}}(Q,R)\)-->
+<!--                        </li>-->
+<!--                        <li><strong>Scale invariance</strong>: \(\mathcal{L}_{\text{MGIoU}}(sP,sG) =-->
+<!--                            \mathcal{L}_{\text{MGIoU}}(P,G)\) for any scalar \(s>0\)-->
+<!--                        </li>-->
+<!--                    </ol>-->
+                    <figure class="image my-4">
+  <img
+    src="static/images/supp/properties.png"
+    alt="One-dimensional IoU, GIoU and MGIoU equations"
+    style="width:100%;height:auto"
+  >
+</figure>
+
                     <p>
                         These guarantees endow the loss with theoretical robustness and a tight correlation with
                         Intersection-over-Union, ensuring consistent optimisation behaviour across varied
