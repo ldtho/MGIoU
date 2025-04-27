@@ -56,6 +56,15 @@
         font-size: 0.9rem !important;
       }
     }
+      /* Force columns that are fraction‑based to span full width on small devices */
+    @media (max-width: 768px) {
+      .column.is-four-fifths,
+      .column.is-three-fifths,
+      .column.is-two-thirds {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+      }
+    }
   </style>
 
   <!-- MathJax (display‑mode enabled) -->
@@ -77,7 +86,6 @@
     }
   </style>
 </head>
-
 
 <body>
 
