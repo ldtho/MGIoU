@@ -10,6 +10,10 @@ A PyTorch implementation of **MGIoU**, **MGIoU⁺**, and **MGIoU⁻** for 2D and
   <a href="https://arxiv.org/abs/2504.16443" target="_blank">
     <img src="https://img.shields.io/badge/ArXiv-2504.16443-B31B1B?logo=arxiv&logoColor=white" alt="arXiv">
   </a>
+&nbsp;
+  <a href="https://pypi.org/project/MGIoU/0.1.0/" target="_blank">
+    <img src="https://img.shields.io/pypi/v/MGIoU?label=PyPI&logo=pypi&logoColor=white&color=brightgreen" alt="PyPI">
+  </a>
 </p>
 
 ## TODO / Road-map
