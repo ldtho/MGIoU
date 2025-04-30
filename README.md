@@ -57,6 +57,23 @@ from mgiou import MGIoU3D, MGIoU2D, MGIoU2DPlus, MGIoU2DMinus
 B = 4
 pred_3d   = torch.rand(B, 8, 3)  # 8 corners per box (v0–v7 in the order described below)
 target_3d = torch.rand(B, 8, 3)
+#          v4_____________________v5
+#           /|                    /|
+#          / |                   / |
+#         /  |                  /  |
+#        /___|_________________/   |
+#    v0 |    |              v1 |   |
+#       |    |                 |   |
+#       |    |                 |   |
+#       |    |                 |   |
+#       |    |_________________|___|
+#       |   / v7               |   /v6
+#       |  /                   |  /
+#       | /                    | /
+#       |/_____________________|/
+#      v3                     v2
+#
+#    MGIOU3D assumes **v0-v1**, **v0-v3**, **v0-v4** form the three face normals. 
 
 # default: mean reduction, fast_mode=False
 loss3d = MGIoU3D()  
