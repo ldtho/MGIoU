@@ -18,7 +18,7 @@ A PyTorch implementation of **MGIoU**, **MGIoU⁺**, and **MGIoU⁻** for 2D and
 
 ## TODO / Road-map
 - [x] **v0.1.0** • Release MGIoU, MGIoU⁺, MGIoU⁻  
-- [x] Release PyPI package and samples  
+- [x] Release PyPI package and samples.  
 - [ ] Sub-repos for experiments in the paper  
   - [ ] 3D Rotated Object Detection  
   - [ ] 2D Rotated Object Detection  
