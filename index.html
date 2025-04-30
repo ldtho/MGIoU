@@ -100,49 +100,40 @@
 <!-- ──────────────────────── TEASER ──────────────────────── -->
 <section class="hero teaser">
     <figure class="image is-inline-block">
-        <img src="static/images/thumbnail.png"
-             alt="Teaser image"
-             style="display:block;margin:auto;width:80%;"/>
+        <img
+            src="static/images/thumbnail.png"
+            alt="Diagram illustrating MGIoU, MGIoU+ and MGIoU-. Predicted (P, red) and ground-truth (G, blue) shapes are projected onto their unique normals to obtain 1-D overlaps, with intersection (purple) measured against union (green); panels show unstructured quadrilaterals, polygons, ellipses, 3-D cuboids and rotated rectangles."
+            style="display:block;margin:auto;width:80%;"
+        />
+
+        <figcaption class="has-text-justified is-size-6 mt-2" style="width:80%;margin:auto;">
+            <strong>MGIoU and its variants computation.</strong>
+            Predicted (<span style="color:#e74c3c;">P</span>, red) and ground-truth
+            (<span style="color:#3498db;">G</span>, blue) shapes are projected onto their
+            unique normals (<em>P<sub>i</sub></em>, <em>G<sub>i</sub></em>) to calculate
+            one-dimensional GIoU. To reduce visual clutter, some
+            panels depict projections onto the unique normals of only one shape.
+            Examples: <strong>MGIoU<sup>+</sup></strong>&nbsp;[A) unstructured quadrilaterals,
+            B) general polygons], <strong>MGIoU</strong>&nbsp;[C) ellipses, D) 3-D cuboids],
+            and <strong>MGIoU<sup>-</sup></strong>&nbsp;[E) rotated rectangles]. <em>Best viewed
+            zoomed in.</em>
+        </figcaption>
     </figure>
 
-    <div class="container is-max-desktop">
-        <div class="hero-body">
-            <h3 class="title is-3 has-text-centered mt-5">
-                We introduce MGIoU and MGIoU<sup>+</sup>, novel loss functions that unify parametric shape
-                optimization by projecting structured and unstructured convex shapes onto their shape
-                normals to compute a one-dimensional normalised&nbsp;GIoU<sup>1D</sup>.
-                The variant&nbsp;MGIoU<sup>-</sup> is designed for minimising overlaps in tasks such as
-                collision-free trajectory prediction.
-            </h3>
-        </div>
-    </div>
+<!--    <div class="container is-max-desktop">-->
+<!--        <div class="hero-body">-->
+<!--            &lt;!&ndash; switched from centered to justified &ndash;&gt;-->
+<!--            <h3 class="title is-3 has-text-justified mt-5">-->
+<!--                We introduce MGIoU and MGIoU<sup>+</sup>, novel loss functions that unify-->
+<!--                parametric shape optimization by projecting structured and unstructured convex-->
+<!--                shapes onto their shape normals to compute a one-dimensional normalised-->
+<!--                GIoU<sup>1D</sup>. The variant MGIoU<sup>-</sup> is designed for minimising-->
+<!--                overlaps in tasks such as collision-free trajectory prediction.-->
+<!--            </h3>-->
+<!--        </div>-->
+<!--    </div>-->
 </section>
 
-<!-- ──────────────────────── VIDEO DEMO ──────────────────────── -->
-<section class="section hero is-light">
-    <div class="container is-max-desktop">
-        <h2 class="title is-2 has-text-centered">MGIoU&nbsp;and&nbsp;MGIoU<sup>+</sup></h2>
-    </div>
-</section>
-
-<section class="hero is-small is-light">
-    <div class="hero-body">
-        <div class="container">
-            <div class="item">
-                <video id="video" class="is-fullwidth" autoplay controls muted loop>
-                    <source src="static/videos/mgiou.mp4" type="video/mp4"/>
-                </video>
-            </div>
-
-            <div class="column has-text-centered mt-3">
-                Visualisation of MGIoU and MGIoU<sup>+</sup> optimising various 2-D and 3-D shapes.
-                Observe how each shape gradually adjusts to minimise the loss.
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ──────────────────────── ABSTRACT ──────────────────────── -->
 <section class="section hero">
     <div class="container is-max-desktop">
         <div class="columns is-centered has-text-centered">
@@ -169,6 +160,32 @@
         </div>
     </div>
 </section>
+<!-- ──────────────────────── VIDEO DEMO ──────────────────────── -->
+<section class="section hero is-light">
+    <div class="container is-max-desktop">
+        <h2 class="title is-2 has-text-centered">MGIoU&nbsp;and&nbsp;MGIoU<sup>+</sup></h2>
+    </div>
+</section>
+
+<section class="hero is-small is-light">
+    <div class="hero-body">
+        <div class="container">
+            <div class="item">
+                <video id="video" class="is-fullwidth" autoplay controls muted loop>
+                    <source src="static/videos/mgiou.mp4" type="video/mp4"/>
+                </video>
+            </div>
+
+            <div class="column has-text-centered mt-3">
+                Visualisation of MGIoU and MGIoU<sup>+</sup> optimising various 2-D and 3-D shapes.
+                Observe how each shape gradually adjusts to minimise the loss.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ──────────────────────── ABSTRACT ──────────────────────── -->
+
 
 <!-- ──────────────────────── SHAPE NORMALS / FORMULAS ──────────────────────── -->
 <section class="section hero is-light">
