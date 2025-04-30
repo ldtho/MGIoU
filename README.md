@@ -26,6 +26,9 @@ A PyTorch implementation of **MGIoU**, **MGIoU⁺**, and **MGIoU⁻** for 2D and
 
 ## Installation
 
+### Requirements
+- Pytorch (preferred >= 2.0)
+
 ### 💡 Option 1 — via **pip** (recommended)
 
 ```bash
