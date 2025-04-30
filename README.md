@@ -31,7 +31,7 @@ A PyTorch implementation of **MGIoU**, **MGIoU⁺**, and **MGIoU⁻** for 2D and
 ## Installation
 
 ### Requirements
-- Pytorch (preferred >= 2.0)
+* PyTorch ≥ 1.12 (≥ 2.0 to use built-in `torch.vmap`; otherwise we transparently fall back to **functorch**)
 
 ### 💡 Option 1 — via **pip** (recommended)
 
