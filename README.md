@@ -16,6 +16,16 @@ A PyTorch implementation of **MGIoU**, **MGIoU⁺**, and **MGIoU⁻** for 2D and
   </a>
 </p>
 
+---
+
+<div align="center">
+
+### 🎉 **Accepted to AAAI 2026 (Oral Presentation)!** 🎉
+
+</div>
+
+---
+
 ## TODO / Road-map
 - [x] **v0.1.0** • Release MGIoU, MGIoU⁺, MGIoU⁻  
 - [x] Release PyPI package and samples.  
